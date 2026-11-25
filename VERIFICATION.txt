@@ -13,13 +13,20 @@ Passed:
 - Generated MP3 playback through completion using buffered Blob fallback.
   Both used base64 lines split across small chunks.
 - Python backend syntax parsing.
+- Backend dependencies installed successfully in an isolated Python 3.12.14
+  environment on Windows, including the configured Google provider package.
+- Four Flask hosting tests: health endpoint, React page and compiled assets,
+  /api aliases, and backend/config files excluded from static serving.
+  These construct the real model/agent with dummy keys and block network calls.
+- Render Blueprint parsed; free Docker service and three secret prompts checked.
 
 The browser checks used simulated API responses, synthetic microphone
 input, and generated audio. No real Gemini, AssemblyAI, or Murf calls were
 made, no paid credits were used, and no real microphone was recorded.
 
 Not verified:
-- Installing and starting the backend with its supplied pinned dependencies.
+- Linux Docker/Gunicorn startup and a real Render deployment. Docker was not
+  running on this machine; the container build has not been executed locally.
 - Your API keys, provider quotas, live model/voice availability, transcription,
   question quality, or model-generated feedback format.
 - Deployment, multiple simultaneous users, or browsers other than Edge.

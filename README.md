@@ -1,8 +1,12 @@
 # AI Interview Assistant - React frontend migration
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/AdarshVaggu/AI-interview-Assistant-New)
+
+**Deploy the complete React + Flask app:** click the button, sign in to Render, enter your three API keys, and confirm deployment. The repository includes the Dockerfile and Render Blueprint; no separate frontend host is needed. See [step-by-step deployment instructions](DEPLOYMENT.md).
+
 This copy replaces the original HTML/JavaScript frontend with React components. The original ZIP is unchanged. The Flask/LangChain/LangGraph/Gemini/AssemblyAI/Murf integration remains in `backend/app.py`. The backend uses **Gemini 3.5 Flash-Lite** (`google_genai:gemini-3.5-flash-lite`), loads `.env` from the backend directory, and guards server startup with `if __name__ == "__main__"`.
 
-The model ID is listed in [Google's Gemini API documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite). It uses the existing `GOOGLE_API_KEY`; model access and quota must be verified with your account. Redeploy the backend after pulling this change.
+The model ID is listed in [Google's Gemini API documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite). It uses the existing `GOOGLE_API_KEY`; model access and quota must be verified with your account. Flask also serves the compiled React frontend and `/api/*` aliases for the combined deployment.
 
 ## Start locally (Windows PowerShell)
 
@@ -54,7 +58,7 @@ npm test
 npm run build
 ```
 
-`dist/` is the production build. `npm run preview` serves it locally, but the development `/api` proxy is not a production backend configuration. For a deployed or separately previewed frontend, set `VITE_API_BASE_URL` to your backend URL before building, or configure your web server to proxy `/api` to Flask. Flask must allow the chosen origin. No deployment is included.
+`dist/` is the production build. The included Dockerfile builds it and has Flask serve it with `/api/*` on the same origin. `npm run preview` by itself does not provide the backend. If you choose separate frontend hosting instead, set `VITE_API_BASE_URL` to your backend URL before building. See `DEPLOYMENT.md` for the recommended combined deployment.
 
 ## Demo checklist
 

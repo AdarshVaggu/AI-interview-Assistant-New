@@ -61,8 +61,22 @@ FEEDBACK_PROMPT = """Based on our complete interview conversation, provide detai
     Be specific - reference ACTUAL things they said during the interview."""
 
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder=os.path.join(os.path.dirname(__file__), "..", "frontend", "dist"),
+    static_url_path="",
+)
 CORS(app, expose_headers=['X-Question-Number', 'X-Interview-Complete'])
+
+
+@app.get("/")
+def frontend():
+    return app.send_static_file("index.html")
+
+
+@app.get("/healthz")
+def health():
+    return jsonify({"status": "ok"})
 
 
 def stream_audio(text):
@@ -93,6 +107,7 @@ def stream_audio(text):
 
 
 @app.route("/start-interview", methods=["POST"])
+@app.route("/api/start-interview", methods=["POST"])
 def start_interview():
     global question_count, current_subject, checkpointer, agent
     data = request.json
@@ -134,6 +149,7 @@ def speech_to_text(audio_path):
 
 
 @app.route("/submit-answer", methods=["POST"])
+@app.route("/api/submit-answer", methods=["POST"])
 def submit_answer():
     """Process user's answer and generate next question"""
     global question_count
@@ -201,6 +217,7 @@ Be conversational but CONCISE. Only reference what they truly said."""
 
 
 @app.route("/get-feedback", methods=["POST"])
+@app.route("/api/get-feedback", methods=["POST"])
 def get_feedback():
     """Generate detailed interview feedback"""
     config = {"configurable": {"thread_id": thread_id}}
