@@ -1,5 +1,9 @@
 # AI Interview Assistant - React frontend migration
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20App-7c3aed?style=for-the-badge)](https://ai-interview-assistant-new.onrender.com/)
+
+Try the [live AI Interview Assistant](https://ai-interview-assistant-new.onrender.com/). Allow microphone access when prompted. The free Render service may take a moment to wake up after inactivity; use one interview at a time.
+
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/AdarshVaggu/AI-interview-Assistant-New)
 
 **Deploy the complete React + Flask app:** click the button, sign in to Render, enter your three API keys, and confirm deployment. The repository includes the Dockerfile and Render Blueprint; no separate frontend host is needed. See [step-by-step deployment instructions](DEPLOYMENT.md).
