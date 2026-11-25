@@ -1,0 +1,29 @@
+VERIFICATION - 25 NOVEMBER 2026
+
+Passed:
+- npm run build (Vite production build).
+- npm test: three audio decoder tests, including partial network records,
+  CRLF/blank records, and malformed base64 rejection.
+- Edge browser: start HTTP failure and retry; five recordings using the
+  browser's synthetic microphone; multipart uploads; question progression;
+  completion; feedback HTTP failure and retry; reset; no page errors.
+- Mobile layout at 390px width: no page overflow; screenshot inspected.
+- Desktop screenshot inspected at 1280px width.
+- Generated MP3 playback through completion using MediaSource streaming.
+- Generated MP3 playback through completion using buffered Blob fallback.
+  Both used base64 lines split across small chunks.
+- Python backend syntax parsing.
+
+The browser checks used simulated API responses, synthetic microphone
+input, and generated audio. No real Gemini, AssemblyAI, or Murf calls were
+made, no paid credits were used, and no real microphone was recorded.
+
+Not verified:
+- Installing and starting the backend with its supplied pinned dependencies.
+- Your API keys, provider quotas, live model/voice availability, transcription,
+  question quality, or model-generated feedback format.
+- Deployment, multiple simultaneous users, or browsers other than Edge.
+
+Run the real demo checklist in README.md before your interview.
+The ZIP includes source, package-lock.json, and the frontend production build;
+it excludes node_modules, virtual environments, secrets, and scratch tests.

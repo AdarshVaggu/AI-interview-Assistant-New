@@ -1,0 +1,100 @@
+AI INTERVIEW ASSISTANT: PREPARATION FOR 26 NOVEMBER 2026
+
+WHAT THE ORIGINAL ZIP USED
+The original frontend was HTML + Tailwind CSS + vanilla JavaScript.
+It did not use React: there were no React imports, components, JSX,
+React hooks, or React package dependencies. index.js directly selected
+DOM nodes and attached event listeners. Your resume lists React.js for
+this project. This migration supplies a real React implementation now;
+it does not change what was in the original version.
+
+AN ACCURATE WAY TO EXPLAIN IT
+"I initially built the interview frontend in vanilla JavaScript, then
+migrated it to React. The current frontend uses reusable components and
+a custom hook to manage interview state, recording, and API calls.
+The Python Flask backend connects Gemini, AssemblyAI, and Murf AI."
+
+Use this wording only after you have reviewed, run, and understood the
+React version. If asked about timing, be direct about when you migrated.
+If asked about assistance, describe the assistance you used accurately.
+You can also correct the stack to HTML/CSS/JavaScript and explain the
+React migration is recent or in progress if you cannot demonstrate it.
+Do not claim the original submitted version already used React.
+
+TRACE ONE ANSWER THROUGH THE SYSTEM
+1. React sends POST /start-interview with {subject}.
+2. Flask creates the interview agent/checkpoint and asks Gemini for a question.
+3. Murf turns the question into MP3. Flask sends base64 records over HTTP.
+4. The browser decodes the records and plays the interviewer audio.
+5. getUserMedia obtains microphone input; MediaRecorder collects a Blob.
+6. React submits that Blob as multipart FormData to /submit-answer.
+7. AssemblyAI transcribes it. The agent uses conversation history to
+   generate a follow-up. Flask returns question/completion headers.
+8. /get-feedback asks the agent for JSON: score, strengths, improvements.
+9. React stores the feedback in state and renders FeedbackPanel.
+
+REACT CONCEPTS YOU MUST BE ABLE TO POINT TO IN THE CODE
+- Components: TopicSidebar and FeedbackPanel receive data through props.
+- useState: subject, phase, recording, questionNumber, feedback, error.
+  Updating state causes React to render the corresponding interface.
+- useRef: audio element, MediaRecorder, microphone stream, AbortController.
+  These imperative objects must survive renders without causing rerenders.
+- useEffect cleanup: release microphone tracks, cancel fetch, pause audio,
+  and revoke Blob URLs when the component unmounts.
+- Custom hook: useInterview shares the interview logic with App while
+  keeping JSX readable. It is not a backend or an AI model.
+- Controlled rendering: phase selects Start/Record/Submit/Feedback states.
+- Lists: topic buttons use stable topic names as React keys.
+- Events: onClick invokes functions; no manual DOM UI mutation is needed.
+- Fetch/FormData: JSON for topic and feedback; multipart for the recording.
+
+COMMON QUESTIONS
+Why React?
+To express UI as a function of state and separate reusable presentation
+components from the interview/media workflow. The original small project
+worked without React; the migration improves organization and extension.
+
+Why is Flask still needed?
+It keeps API keys on the server, calls AI providers, handles audio uploads,
+and owns the conversation workflow. React only runs the user interface.
+
+Did you train Gemini?
+No. The app integrates a hosted pretrained model using prompts and history.
+
+What does LangGraph do here?
+The agent uses an InMemorySaver checkpoint with a thread_id to retain
+conversation messages. This project does not implement a large custom
+multi-node graph, and the memory does not persist after server restart.
+
+Is it multi-user or production ready?
+No. The current backend uses global state and one thread_id. A next step
+would be session IDs, isolated checkpoints, durable storage, validation,
+provider error handling, and authentication if the product needs it.
+
+What is an audio bug you addressed in the migration?
+HTTP chunks can split a base64 record in the middle. The new decoder
+keeps an incomplete line for the next read instead of decoding each
+network chunk independently. It also waits for SourceBuffer updateend
+before appending the next MP3 chunk.
+
+Is playback always streamed?
+MediaSource streams where MP3 is supported. Otherwise the frontend buffers
+the response into a Blob before playing. The backend still streams base64.
+
+What would you improve next?
+Per-user session isolation, backend error handling, a schema for model
+feedback, persistent history, and eliminating the extra agent invocation
+that currently generates an unused response per submitted answer.
+
+TONIGHT'S PRIORITIES
+1. Get one real five-question interview working with your API keys.
+2. Read App.jsx and useInterview.js and trace all three API calls.
+3. Explain state versus refs, props, cleanup, and FormData in your own words.
+4. Practice a 60-second project explanation and a truthful migration timeline.
+5. Review the original backend and its limits. Avoid adding large new
+   features immediately before the interview.
+
+Official React learning references:
+https://react.dev/learn
+https://react.dev/learn/add-react-to-an-existing-project
+https://react.dev/reference/react/useEffect
