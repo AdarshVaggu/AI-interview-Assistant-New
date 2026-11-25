@@ -1,6 +1,8 @@
 # AI Interview Assistant - React frontend migration
 
-This copy replaces the original HTML/JavaScript frontend with React components. The original ZIP is unchanged. The Flask/LangChain/LangGraph/Gemini/AssemblyAI/Murf integration remains in `backend/app.py`. Backend changes are limited to loading `.env` from the backend directory and guarding server startup with `if __name__ == "__main__"`.
+This copy replaces the original HTML/JavaScript frontend with React components. The original ZIP is unchanged. The Flask/LangChain/LangGraph/Gemini/AssemblyAI/Murf integration remains in `backend/app.py`. The backend uses **Gemini 3.5 Flash-Lite** (`google_genai:gemini-3.5-flash-lite`), loads `.env` from the backend directory, and guards server startup with `if __name__ == "__main__"`.
+
+The model ID is listed in [Google's Gemini API documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite). It uses the existing `GOOGLE_API_KEY`; model access and quota must be verified with your account. Redeploy the backend after pulling this change.
 
 ## Start locally (Windows PowerShell)
 
